@@ -1,0 +1,15 @@
+{% load static %}
+<html>
+	<head>
+		<title>Shipment Tracker</title>
+		<link rel="stylesheet" href="{% static 'c1.css' %}"/>
+	</head>
+	<body>
+		<div class="nav">
+        	<a href="{% url 'home' %}">Home</a>
+        	<a href="{% url 'shipment_list' %}">Shipment List</a>
+		</div>
+        {% block content %}
+        {% endblock %}
+	</body>
+</html>

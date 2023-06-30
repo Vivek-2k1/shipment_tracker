@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h2 class="heading">Home</h2>
+
+<div class="container">
+    <form method="POST" class="sub-container">
+        {% csrf_token %}
+            {{fm.as_p}}
+            <input type="submit" value="Create">
+    </form>
+    {{msg}}
+</div>
+
+<table>
+    <tr>
+        <th>Origin</th>
+        <th>Destination</th>
+        <th>Expected Delivery</th>
+        <th>Actual Delivery</th>
+        <th>Status</th>
+        <th>Delete</th>
+        <th>Cargos</th>
+        <th>Track</th>
+    </tr>
+    {% for shipment in shipments %}
+        <tr>
+            <td>{{ shipment.origin }}</td>
+            <td>{{ shipment.destination }}</td>
+            <td>{{ shipment.expected_delivery_date }}</td>
+            <td>{{ shipment.actual_delivery_date }}</td>
+            {% if shipment.status == 'EA' %}
+                <td>Early</td>
+            {% elif shipment.status == 'DE' %}
+                <td>Delayed</td>
+            {% elif shipment.status == 'OT' %}
+                <td>On Time</td>
+            {% else %}
+                <td>En Route</td>
+            {% endif %}
+            <td><a href="{% url 'delete_shipment' id=shipment.id %}" onclick="return confirm('Are You Sure?')" style="text-decoration: none;">Delete</a></td>
+            <td><a href="{% url 'cargo' id=shipment.id %}" style="text-decoration: none;">View Cargo</a></td>
+            <td><a href="{% url 'tracking' id=shipment.id %}" style="text-decoration: none;">View Tracking</a></td>
+        </tr>
+    {% empty %}
+        No shipments available
+    {% endfor %}
+</table>
+{% endblock %}

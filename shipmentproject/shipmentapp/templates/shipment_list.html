@@ -1,0 +1,69 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h2 class="heading">Shipment List</h2>
+<div class="container">
+    <form method="GET" action="{% url 'shipment_list' %}" class="sub-container">
+        <label for="origin">Origin:</label>
+        <input type="text" id="origin" name="origin">
+        <br><br>
+        <label for="destination">Destination:</label>
+        <input type="text" id="destination" name="destination">
+        <br><br>
+        <label for="status">Status:</label>
+        <select id="status" name="status">
+            <option value="">All</option>
+            <option value="ER">EnRoute</option>
+            <option value="EA">Early</option>
+            <option value="DE">Delayed</option>
+            <option value="OT">OnTime</option>
+        </select>
+        <br><br>
+        <button type="submit">Filter</button>
+    </form>
+</div>
+    
+    <table>
+        <thead>
+            <tr>
+                <th>Origin</th>
+                <th>Destination</th>
+                <th>Expected Delivery Date</th>
+                <th>Actual Delivery Date</th>
+                <th>Status</th>
+                <th>Cargo Items</th>
+                <th>Tracking Information</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for shipment in shipments %}
+            <tr>
+                <td>{{ shipment.origin }}</td>
+                <td>{{ shipment.destination }}</td>
+                <td>{{ shipment.expected_delivery_date }}</td>
+                <td>{{ shipment.actual_delivery_date }}</td>
+                <td>{{ shipment.get_status_display }}</td>
+                <td>
+                    <ul>
+                        {% for cargo in shipment.cargomodel_set.all %}
+                        <ul>{{ cargo.name }} (Quantity: {{ cargo.quantity }})</ul>
+                        {% endfor %}
+                    </ul>
+                </td>
+                <td>
+                    {% if shipment.trackingmodel %}
+                    <ul>
+                        <ul>{{ shipment.trackingmodel.status }} - {{ shipment.trackingmodel.location }}</ul>
+                    </ul>
+                    {% else %}
+                    N/A
+                    {% endif %}
+                </td>
+            </tr>
+            {% empty %}
+                <h4>Please Apply Filter</h4>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

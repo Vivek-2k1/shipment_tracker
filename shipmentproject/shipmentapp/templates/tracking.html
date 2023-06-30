@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h2 class="heading">Track Shipment</h2>
+
+<div class="container">
+    <form method="POST" class="sub-container">
+        {% csrf_token %}
+            {{fm.as_p}}
+            <input type="submit" value="Create">
+    </form>
+    {{msg}}
+</div>
+
+<table>
+    <tr>
+        <th>Status</th>
+        <th>Location</th>
+        <th>Delete</th>
+    </tr>
+    {% for tracking in trackings %}
+        <tr>
+            <td>{{ tracking.status }}</td>
+            <td>{{ tracking.location }}</td>
+            <td><a href="{% url 'delete_tracking' tracking_id=tracking.id %}" onclick="return confirm('Are You Sure?')" style="text-decoration: none;">Delete</a></td>
+        </tr>
+    {% empty %}
+        No Tracking available
+    {% endfor %}
+</table>
+{% endblock %}
