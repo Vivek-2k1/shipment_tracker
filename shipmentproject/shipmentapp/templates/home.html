@@ -39,9 +39,9 @@
             {% else %}
                 <td>En Route</td>
             {% endif %}
-            <td><a href="{% url 'delete_shipment' id=shipment.id %}" onclick="return confirm('Are You Sure?')" style="text-decoration: none;">Delete</a></td>
-            <td><a href="{% url 'cargo' id=shipment.id %}" style="text-decoration: none;">View Cargo</a></td>
-            <td><a href="{% url 'tracking' id=shipment.id %}" style="text-decoration: none;">View Tracking</a></td>
+            <td><a href="{% url 'delete_shipment' id=shipment.id %}" onclick="return confirm('Are You Sure?')">Delete</a></td>
+            <td><a href="{% url 'cargo' id=shipment.id %}">View Cargo</a></td>
+            <td><a href="{% url 'tracking' id=shipment.id %}">View Tracking</a></td>
         </tr>
     {% empty %}
         No shipments available

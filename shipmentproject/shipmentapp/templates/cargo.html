@@ -10,7 +10,7 @@
             {{fm.as_p}}
             <input type="submit" value="Create">
     </form>
-    {{msg}}
+    <p class="msg">{{msg}}</p>
 </div>
 
 <h2 class="heading">Cargo Information</h2>
@@ -25,10 +25,10 @@
         <tr>
             <td>{{ cargo.name }}</td>
             <td>{{ cargo.quantity }}</td>
-            <td><a href="{% url 'delete_cargo' cargo_id=cargo.id %}" onclick="return confirm('Are You Sure?')" style="text-decoration: none;">Delete</a></td>
+            <td><a href="{% url 'delete_cargo' cargo_id=cargo.id %}" onclick="return confirm('Are You Sure?')">Delete</a></td>
         </tr>
     {% empty %}
-        No Cargos available
+        <p class="msg">No Cargos available</p>
     {% endfor %}
 </table>
 {% endblock %}

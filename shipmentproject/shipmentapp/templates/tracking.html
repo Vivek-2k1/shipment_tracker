@@ -23,7 +23,7 @@
         <tr>
             <td>{{ tracking.status }}</td>
             <td>{{ tracking.location }}</td>
-            <td><a href="{% url 'delete_tracking' tracking_id=tracking.id %}" onclick="return confirm('Are You Sure?')" style="text-decoration: none;">Delete</a></td>
+            <td><a href="{% url 'delete_tracking' tracking_id=tracking.id %}" onclick="return confirm('Are You Sure?')">Delete</a></td>
         </tr>
     {% empty %}
         No Tracking available

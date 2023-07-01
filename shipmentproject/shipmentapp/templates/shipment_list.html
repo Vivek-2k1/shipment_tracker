@@ -45,19 +45,17 @@
                 <td>{{ shipment.actual_delivery_date }}</td>
                 <td>{{ shipment.get_status_display }}</td>
                 <td>
-                    <ul>
                         {% for cargo in shipment.cargomodel_set.all %}
-                        <ul>{{ cargo.name }} (Quantity: {{ cargo.quantity }})</ul>
+                            <ul>{{ cargo.name }} (Quantity: {{ cargo.quantity }})</ul>
+                        {% empty %}
+                            N/A
                         {% endfor %}
-                    </ul>
                 </td>
                 <td>
                     {% if shipment.trackingmodel %}
-                    <ul>
                         <ul>{{ shipment.trackingmodel.status }} - {{ shipment.trackingmodel.location }}</ul>
-                    </ul>
                     {% else %}
-                    N/A
+                        N/A
                     {% endif %}
                 </td>
             </tr>
