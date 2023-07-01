@@ -67,14 +67,24 @@ def tracking(request,id):
     if request.method == "POST":
         data = TrackingForm(request.POST)
         if data.is_valid():
-            new_data = data.save(commit=False)
-            new_data.shipment = shipment
-            if new_data.status == 'DELIVERED':
-                shipment.actual_delivery_date = datetime.now().date()
-            shipment.save()
-            new_data.save()
-            msg = "Track Created"
-            return redirect('home')
+            existing_track =trackings.first()
+            if existing_track:
+                existing_track.status = data.cleaned_data['status']
+                existing_track.location = data.cleaned_data['location']
+                existing_track.save()
+                msg = "Tracking Updated"
+                fm = TrackingForm()
+                return render(request,'tracking.html',{"fm":fm,"trackings":trackings,"msg":msg})
+            else:
+                new_data = data.save(commit=False)
+                new_data.shipment = shipment
+                if new_data.status == 'DELIVERED':
+                    shipment.actual_delivery_date = datetime.now().date()
+                shipment.save()
+                new_data.save()
+                msg = "Track Created"
+                fm = TrackingForm()
+                return render(request,'tracking.html',{"fm":fm,"trackings":trackings,"msg":msg})
         else:
             msg = data
             context = {
